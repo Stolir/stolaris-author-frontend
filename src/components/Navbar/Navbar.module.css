@@ -1,0 +1,14 @@
+header {
+  display: flex;
+  justify-content: center;
+  font-family: "Work Sans";
+  background-color: #e9e1d7;
+  padding: 1rem;
+}
+
+.logo {
+  text-decoration: none;
+  color: inherit;
+  font-size: 2rem;
+  font-weight: 200;
+}
