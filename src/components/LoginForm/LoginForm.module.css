@@ -53,6 +53,18 @@
 }
 
 .welcomeMessage p {
-  opacity: 0.5;
-  font-size: 0.8rem;
+  opacity: 0.6;
+  font-size: 0.7rem;
+  animation: fadeIn 2.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px); /* Gently drifts up as it appears */
+  }
+  to {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
 }

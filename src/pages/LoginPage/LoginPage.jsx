@@ -9,8 +9,8 @@ function LoginPage() {
       </section>
       <section className={styles.quoteSection}>
         <QuoteContainer
-          quote="The desire to create is one of the deepest yearnings of the human soul."
-          author="Dieter F. Uchtdorf"
+          fullQuote="The desire to create is one of the deepest yearnings of the human soul."
+          fullAuthor="Dieter F. Uchtdorf"
         />
       </section>
     </>

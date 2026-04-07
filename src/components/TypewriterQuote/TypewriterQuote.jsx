@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import styles from "./QuoteContainer.module.css";
+import styles from "./TypewriterQuote.module.css";
 
-function QuoteContainer({ fullQuote, fullAuthor }) {
+function TypewriterQuote({ fullQuote, fullAuthor }) {
   const [quote, setQuote] = useState("");
   const [showAuthor, setShowAuthor] = useState(false);
 
@@ -42,4 +42,4 @@ function QuoteContainer({ fullQuote, fullAuthor }) {
   );
 }
 
-export default QuoteContainer;
+export default TypewriterQuote;
