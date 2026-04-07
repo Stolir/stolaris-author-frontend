@@ -1,0 +1,15 @@
+.formButton {
+  border: none;
+  background: linear-gradient(to right, #a03f30, var(--primary-color));
+  color: white;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  max-width: 200px;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.formButton:hover {
+  opacity: 0.9;
+}

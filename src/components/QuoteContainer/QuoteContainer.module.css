@@ -1,0 +1,23 @@
+.quoteContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 800px;
+  width: 100%;
+  gap: 1rem;
+}
+
+.quoteContainer p {
+  text-align: justify;
+  text-align-last: center;
+  font-size: 1rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.quoteContainer span {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  font-style: italic;
+}

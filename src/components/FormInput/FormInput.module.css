@@ -1,0 +1,17 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  width: 100%;
+}
+
+.inputContainer input {
+  border: none;
+  background-color: #f4ece191;
+  padding: 0.4rem 0.8rem;
+  width: 100%;
+}
+
+.inputContainer input:focus {
+  outline: 1px solid black;
+}
