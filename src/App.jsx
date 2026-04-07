@@ -1,14 +1,14 @@
-import { Outlet, useLoaderData } from "react-router";
-import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
+import { useLoaderData } from "react-router";
+
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
+import AuthLayout from "./layouts/AuthLayout/AuthLayout";
+import PublicLayout from "./layouts/PublicLayout";
 
 function AppContent() {
   const data = useLoaderData();
-  const { login, loading, setLoading } = useAuth();
+  const { login, loading, setLoading, user } = useAuth();
   // console.log(data);
   useEffect(() => {
     if (data.user) {
@@ -20,15 +20,7 @@ function AppContent() {
 
   if (loading) return <LoadingSpinner />;
 
-  return (
-    <>
-      <Navbar />
-      <main className="mainContent">
-        <Outlet />
-      </main>
-      <Footer />
-    </>
-  );
+  return user ? <AuthLayout /> : <PublicLayout />;
 }
 
 function App() {

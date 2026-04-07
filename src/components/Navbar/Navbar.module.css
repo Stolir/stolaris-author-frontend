@@ -1,6 +1,7 @@
 header {
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: "Newsreader";
   background-color: #e9e1d7;
   padding: 1rem;

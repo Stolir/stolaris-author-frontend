@@ -1,8 +1,9 @@
+import { Navigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./DashboardPage.module.css";
 
 function DashboardPage() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return <h1>Welcome, {user.name} </h1>;
 }

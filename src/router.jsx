@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import { userLoader } from "./loaders/userLoader";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -19,8 +20,13 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "/author/dashboard",
-        element: <DashboardPage />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/author/dashboard",
+            element: <DashboardPage />,
+          },
+        ],
       },
     ],
   },
