@@ -1,7 +1,15 @@
 import styles from "./LoginPage.module.css";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import QuoteContainer from "../../components/QuoteContainer/QuoteContainer";
+import { useAuth } from "../../context/AuthContext";
+import { Navigate } from "react-router";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 function LoginPage() {
+  const { user, loading } = useAuth();
+
+  if (loading) return <LoadingSpinner />;
+  if (user) return <Navigate to="/author/dashboard" />;
+
   return (
     <>
       <section className={styles.formSection}>

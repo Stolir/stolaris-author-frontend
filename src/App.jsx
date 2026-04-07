@@ -1,9 +1,25 @@
-import { Outlet } from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { useEffect } from "react";
+import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 
-function App() {
+function AppContent() {
+  const data = useLoaderData();
+  const { login, loading, setLoading } = useAuth();
+  // console.log(data);
+  useEffect(() => {
+    if (data.user) {
+      login(data.user);
+    } else {
+      setLoading(false);
+    }
+  }, [data]);
+
+  if (loading) return <LoadingSpinner />;
+
   return (
     <>
       <Navbar />
@@ -12,6 +28,14 @@ function App() {
       </main>
       <Footer />
     </>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

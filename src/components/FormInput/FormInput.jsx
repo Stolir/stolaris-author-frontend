@@ -9,6 +9,8 @@ function FormInput({
   id,
   value,
   placeholder,
+  isRequired,
+  error,
 }) {
   return (
     <div className={styles.inputContainer}>
@@ -21,7 +23,11 @@ function FormInput({
         onChange={onChange}
         onBlur={onBlur}
         placeholder={placeholder}
+        required={isRequired}
+        className={error ? styles.validationError : ""}
+        autoComplete={name}
       />
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   );
 }

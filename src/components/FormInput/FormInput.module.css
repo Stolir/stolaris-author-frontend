@@ -15,3 +15,12 @@
 .inputContainer input:focus {
   outline: 1px solid black;
 }
+
+input.validationError {
+  outline: 1px solid rgb(172, 44, 22);
+}
+
+.error {
+  color: rgb(172, 44, 22);
+  font-size: 0.6rem;
+}

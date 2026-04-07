@@ -68,3 +68,8 @@
     transform: translateY(0);
   }
 }
+
+.error {
+  color: rgb(172, 44, 22);
+  font-size: 0.6rem;
+}
