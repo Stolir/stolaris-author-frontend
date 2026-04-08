@@ -71,5 +71,6 @@
 
 .error {
   color: rgb(172, 44, 22);
-  font-size: 0.6rem;
+  font-size: 0.8rem;
+  height: 0.8rem;
 }

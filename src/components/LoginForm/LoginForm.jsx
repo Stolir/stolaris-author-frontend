@@ -32,7 +32,7 @@ function LoginForm() {
     const formData = new FormData(e.target);
 
     try {
-      const response = await fetch("/auth/login", {
+      const response = await fetch("/auth/login/author", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -69,7 +69,6 @@ function LoginForm() {
         <p>{randomWM}</p>
       </div>
 
-      {error && <p className={styles.error}>{error.message}</p>}
       <FormInput
         type="text"
         label="USERNAME"
@@ -88,7 +87,9 @@ function LoginForm() {
         isRequired={true}
         error={fieldErrors.password}
       />
+
       <FormButton type="submit">Login</FormButton>
+      <p className={styles.error}>{error ? error : ""}</p>
     </form>
   );
 }

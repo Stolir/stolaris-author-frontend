@@ -1,0 +1,25 @@
+.profileWidget {
+  display: flex;
+  gap: 1rem;
+  color: var(--background-color);
+  width: 80%;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.205);
+  align-items: center;
+}
+
+.username {
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+}
+
+.username:hover {
+  color: var(--primary-variant);
+}
+
+.accountType {
+  opacity: 0.8;
+  font-size: 0.8rem;
+}

@@ -8,7 +8,7 @@ function LoginPage() {
   const { user, loading } = useAuth();
 
   if (loading) return <LoadingSpinner />;
-  if (user) return <Navigate to="/author/dashboard" />;
+  if (user) return <Navigate to="/author/dashboard/" />;
 
   return (
     <>

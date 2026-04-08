@@ -1,0 +1,13 @@
+.sidebarItem {
+  display: flex;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--background-color);
+  width: 100%;
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+.sidebarItem.active {
+  background-color: var(--primary-variant);
+}

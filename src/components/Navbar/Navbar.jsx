@@ -8,7 +8,7 @@ function Navbar() {
 
   if (!user) {
     return (
-      <header>
+      <header className={styles.navbar}>
         <Link to="/" className={`${styles.logo}`}>
           <p>STOLARIS</p>
         </Link>

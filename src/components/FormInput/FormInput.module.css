@@ -23,4 +23,5 @@ input.validationError {
 .error {
   color: rgb(172, 44, 22);
   font-size: 0.6rem;
+  margin-top: 0.2rem;
 }
