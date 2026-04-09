@@ -7,7 +7,7 @@ function SearchInput({ value, onChange }) {
       value={value}
       onChange={onChange}
       className={styles.SearchInput}
-    ></input>
+    />
   );
 }
 

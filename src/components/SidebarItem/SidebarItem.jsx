@@ -10,7 +10,7 @@ function SidebarItem({ name, path, icon }) {
       }
     >
       {icon}
-      {name}
+      <p className={styles.itemName}>{name}</p>
     </NavLink>
   );
 }

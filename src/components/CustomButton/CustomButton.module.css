@@ -12,3 +12,9 @@
   background-color: var(--primary-variant);
   color: white;
 }
+
+@media (max-width: 768px) {
+  .customButton {
+    font-size: 0.8rem;
+  }
+}

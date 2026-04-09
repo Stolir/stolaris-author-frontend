@@ -4,15 +4,13 @@ import { Link } from "react-router";
 
 function ProfileWidget({ user }) {
   return (
-    <div className={styles.profileWidget}>
+    <Link to="/author/profile" className={styles.profileWidget}>
       <ProfileCircle width={35} height={35} />
       <div className={styles.userInfo}>
-        <Link to="/author/profile" className={styles.username}>
-          {user.name}
-        </Link>
+        <p className={styles.username}>{user.name}</p>
         <p className={styles.accountType}>Author</p>
       </div>
-    </div>
+    </Link>
   );
 }
 

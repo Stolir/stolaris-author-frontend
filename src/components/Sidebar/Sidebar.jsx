@@ -20,17 +20,17 @@ function Sidebar() {
         <SidebarItem
           name={"Library"}
           icon={<Book />}
-          path={"/author/dashboard/library"}
-        />
-        <SidebarItem
-          name={"Settings"}
-          icon={<Settings />}
-          path={"/author/dashboard/settings"}
+          path={"/author/dashboard"}
         />
         <SidebarItem
           name={"Archive"}
           icon={<Archive />}
           path={"/author/dashboard/archive"}
+        />
+        <SidebarItem
+          name={"Settings"}
+          icon={<Settings />}
+          path={"/author/dashboard/settings"}
         />
       </section>
       <section className={styles.controls}>
@@ -38,7 +38,7 @@ function Sidebar() {
           text={"Write New Article"}
           onClick={() => navigate("/author/editor")}
         />
-        <ProfileWidget user={user} />
+        {/* <ProfileWidget user={user} /> */}
       </section>
     </aside>
   );
