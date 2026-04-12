@@ -4,7 +4,7 @@ import styles from "./DashboardNavbar.module.css";
 
 function DashboardNavbar({ searchValue, searchOnChange }) {
   return (
-    <header>
+    <header className={styles.header}>
       <SearchInput value={searchValue} onChange={searchOnChange} />
       <LogoutButton />
     </header>

@@ -6,32 +6,20 @@ import CustomButton from "../CustomButton/CustomButton";
 import ProfileWidget from "../ProfileWidget/ProfileWidget";
 import { useAuth } from "../../context/AuthContext";
 
-function Sidebar() {
+function Sidebar({ setPageTitle }) {
   const navigate = useNavigate();
   const { user } = useAuth();
 
   return (
     <aside className={styles.sidebar}>
-      <Link to="/" className={`${styles.logo}`}>
+      <Link to="/author/dashboard" className={`${styles.logo}`}>
         <p>STOLARIS</p>
         <p className={styles.logoSubtext}>EDITORIAL WORKSPACE</p>
       </Link>
       <section className={styles.navItems}>
-        <SidebarItem
-          name={"Library"}
-          icon={<Book />}
-          path={"/author/dashboard"}
-        />
-        <SidebarItem
-          name={"Archive"}
-          icon={<Archive />}
-          path={"/author/dashboard/archive"}
-        />
-        <SidebarItem
-          name={"Settings"}
-          icon={<Settings />}
-          path={"/author/dashboard/settings"}
-        />
+        <SidebarItem name={"Library"} icon={<Book />} path={"library"} />
+        <SidebarItem name={"Archive"} icon={<Archive />} path={"archive"} />
+        <SidebarItem name={"Settings"} icon={<Settings />} path={"settings"} />
       </section>
       <section className={styles.controls}>
         <CustomButton

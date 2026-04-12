@@ -18,7 +18,11 @@ function LogoutButton() {
   }
 
   return (
-    <button onClick={handleLogout} className={styles.button}>
+    <button
+      onClick={handleLogout}
+      className={styles.button}
+      aria-label="logout"
+    >
       <LogOut className={styles.svg} />
     </button>
   );

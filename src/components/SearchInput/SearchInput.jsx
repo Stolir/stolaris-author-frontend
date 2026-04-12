@@ -1,13 +1,18 @@
+import { Search } from "iconoir-react";
 import styles from "./SearchInput.module.css";
 
 function SearchInput({ value, onChange }) {
   return (
-    <input
-      type="text"
-      value={value}
-      onChange={onChange}
-      className={styles.SearchInput}
-    />
+    <div className={styles.inputContainer}>
+      <Search className={styles.icon} />
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={styles.searchInput}
+        placeholder="Search articles by title"
+      />
+    </div>
   );
 }
 

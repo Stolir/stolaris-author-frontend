@@ -1,0 +1,29 @@
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 30%;
+}
+
+.icon {
+  position: absolute;
+  left: 20px;
+}
+
+.searchInput {
+  border: none;
+  border-radius: 40px;
+  outline: none;
+  padding: 0.8rem 3.8rem;
+  width: 100%;
+  background-color: #e1d9ce;
+}
+
+@media (max-width: 768px) {
+  .icon {
+    display: none;
+  }
+  .searchInput {
+    padding: 0.8rem 1.3rem;
+  }
+}
