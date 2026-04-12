@@ -1,27 +1,14 @@
-import { useState } from "react";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import styles from "./AuthLayout.module.css";
-import { useSearch } from "../../hooks/useSearch";
-import DashboardNavbar from "../../components/DashboardNavbar/DashboardNavbar";
-import SidebarItem from "../../components/SidebarItem/SidebarItem";
-import { Book, GraphUp, Settings } from "iconoir-react";
-import DashboardPage from "../../pages/DashboardPage/DashboardPage";
+import { Navigate, Outlet } from "react-router";
+import { useAuth } from "../../context/AuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function AuthLayout() {
-  const { searchQuery, setSearchQuery, searchError } = useSearch();
+  const { user, loading } = useAuth();
 
-  return (
-    <div className={styles.dashboardContainer}>
-      <Sidebar className={styles.sidebar}></Sidebar>
-      <section className={styles.mainContent}>
-        <DashboardNavbar
-          searchValue={searchQuery}
-          searchOnChange={setSearchQuery}
-        />
-        <DashboardPage />
-      </section>
-    </div>
-  );
+  if (loading) return <LoadingSpinner />;
+  if (!user) return <Navigate to="/" />;
+
+  return <Outlet />;
 }
 
 export default AuthLayout;
