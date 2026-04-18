@@ -6,6 +6,7 @@ import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import { userLoader } from "./loaders/userLoader";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 import EditorPage from "./pages/EditorPage/EditorPage";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -20,18 +21,24 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "/author/dashboard",
-        element: <DashboardPage />,
+        path: "/author",
+        element: <ProtectedRoute />,
         children: [
           {
-            path: "library",
-            element: <p>HI</p>,
+            path: "dashboard",
+            element: <DashboardPage />,
+            children: [
+              {
+                path: "library",
+                element: <p>HI</p>,
+              },
+            ],
+          },
+          {
+            path: "editor",
+            element: <EditorPage />,
           },
         ],
-      },
-      {
-        path: "/author/editor",
-        element: <EditorPage />,
       },
     ],
   },
