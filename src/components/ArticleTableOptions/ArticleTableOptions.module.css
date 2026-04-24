@@ -1,0 +1,19 @@
+.optionMenu {
+  list-style: none;
+  background-color: var(--background-darker);
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  flex-direction: column;
+}
+
+.optionMenu li button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.optionMenu button:hover {
+  color: var(--primary-color);
+}
