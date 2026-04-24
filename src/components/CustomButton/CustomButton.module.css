@@ -1,11 +1,16 @@
 .customButton {
   border: none;
   padding: 1rem;
-  width: 80%;
+  max-width: 80%;
+  width: 100%;
   border-radius: 10px;
   margin-inline: auto;
   cursor: pointer;
   font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .customButton:hover {
@@ -16,5 +21,11 @@
 @media (max-width: 768px) {
   .customButton {
     font-size: 0.8rem;
+    gap: 0.5rem;
+    width: auto;
+  }
+
+  .customButton span {
+    display: none;
   }
 }
