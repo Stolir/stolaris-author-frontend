@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./ArticleTableOptions.module.css";
 import AlertBox from "../AlertBox/AlertBox";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
+import { updateArticleStatus } from "@/lib/serverRequests";
 
 function ArticleTableOptions({
   article,
@@ -35,23 +36,8 @@ function ArticleTableOptions({
   }
 
   async function changeStatusHandler(articleId, action) {
-    try {
-      const response = await fetch(
-        `/api/author/articles/${articleId}/${action}`,
-        {
-          method: "POST",
-          credentials: "include",
-        },
-      );
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.message);
-        return;
-      }
-      changeArticleStatus(articleId, data.status);
-    } catch (err) {
-      setError(err);
-    }
+    const article = await updateArticleStatus(articleId, action);
+    changeArticleStatus(articleId, article.status);
   }
 
   const statuses = [

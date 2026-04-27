@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  EditorContent,
+  EditorContext,
+  JSONContent,
+  useEditor,
+} from "@tiptap/react";
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit";
-import { Image } from "@tiptap/extension-image";
 import { TaskItem, TaskList } from "@tiptap/extension-list";
 import { TextAlign } from "@tiptap/extension-text-align";
 import { Typography } from "@tiptap/extension-typography";
@@ -24,19 +28,16 @@ import {
 } from "@/components/tiptap-ui-primitive/toolbar";
 
 // --- Tiptap Node ---
-import { ImageUploadNode } from "@/components/tiptap-node/image-upload-node/image-upload-node-extension";
 import { HorizontalRule } from "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension";
 import "@/components/tiptap-node/blockquote-node/blockquote-node.scss";
 import "@/components/tiptap-node/code-block-node/code-block-node.scss";
 import "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss";
 import "@/components/tiptap-node/list-node/list-node.scss";
-import "@/components/tiptap-node/image-node/image-node.scss";
 import "@/components/tiptap-node/heading-node/heading-node.scss";
 import "@/components/tiptap-node/paragraph-node/paragraph-node.scss";
 
 // --- Tiptap UI ---
 import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
-import { ImageUploadButton } from "@/components/tiptap-ui/image-upload-button";
 import { ListDropdownMenu } from "@/components/tiptap-ui/list-dropdown-menu";
 import { BlockquoteButton } from "@/components/tiptap-ui/blockquote-button";
 import { CodeBlockButton } from "@/components/tiptap-ui/code-block-button";
@@ -64,15 +65,16 @@ import { useIsBreakpoint } from "@/hooks/use-is-breakpoint";
 import { useWindowSize } from "@/hooks/use-window-size";
 import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 
-// --- Lib ---
-import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils";
-
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss";
 import EditorSaveButton from "@/components/EditorSaveButton/EditorSaveButton";
 
-import content from "./data/content.json";
+import templateContent from "./data/content.json";
 import EditorDraftButton from "@/components/EditorDraftButton/EditorDraftButton";
+import EditorPublishButton from "@/components/EditorPublishButton/EditorPublishButton";
+import { Home, HomeSimple } from "iconoir-react";
+import HomeButton from "@/components/HomeButton/HomeButton";
+import EditorUpdateButton from "@/components/EditorUpdateButton/EditorUpdateButton";
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -84,8 +86,14 @@ const MainToolbarContent = ({
   isMobile: boolean;
 }) => {
   return (
-    <>
+    <div className="toolbar-options">
       <Spacer />
+
+      <ToolbarGroup>
+        <HomeButton />
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
 
       <ToolbarGroup>
         <UndoRedoButton action="undo" />
@@ -138,14 +146,10 @@ const MainToolbarContent = ({
 
       <ToolbarSeparator />
 
-      <ToolbarGroup>
-        <ImageUploadButton />
-      </ToolbarGroup>
-
       <Spacer />
 
       {isMobile && <ToolbarSeparator />}
-    </>
+    </div>
   );
 };
 
@@ -178,7 +182,7 @@ const MobileToolbarContent = ({
   </>
 );
 
-export function SimpleEditor() {
+export function SimpleEditor({ article }: { article: any }) {
   const isMobile = useIsBreakpoint();
   const { height } = useWindowSize();
   const [mobileView, setMobileView] = useState<"main" | "highlighter" | "link">(
@@ -186,18 +190,8 @@ export function SimpleEditor() {
   );
   const toolbarRef = useRef<HTMLDivElement>(null);
 
-  const editor = useEditor({
-    immediatelyRender: false,
-    editorProps: {
-      attributes: {
-        autocomplete: "off",
-        autocorrect: "off",
-        autocapitalize: "off",
-        "aria-label": "Main content area, start typing to enter text.",
-        class: "simple-editor",
-      },
-    },
-    extensions: [
+  const extensions = useMemo(
+    () => [
       StarterKit.configure({
         horizontalRule: false,
         link: {
@@ -210,20 +204,31 @@ export function SimpleEditor() {
       TaskList,
       TaskItem.configure({ nested: true }),
       Highlight.configure({ multicolor: true }),
-      Image,
       Typography,
       Superscript,
       Subscript,
       Selection,
-      ImageUploadNode.configure({
-        accept: "image/*",
-        maxSize: MAX_FILE_SIZE,
-        limit: 3,
-        upload: handleImageUpload,
-        onError: (error) => console.error("Upload failed:", error),
-      }),
     ],
-    content,
+    [],
+  );
+
+  useEffect(() => {
+    console.log("editor:", article);
+  }, [article]);
+
+  const editor = useEditor({
+    immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        autocomplete: "off",
+        autocorrect: "off",
+        autocapitalize: "off",
+        "aria-label": "Main content area, start typing to enter text.",
+        class: "simple-editor",
+      },
+    },
+    extensions,
+    content: article?.content || templateContent,
   });
 
   const rect = useCursorVisibility({
@@ -262,8 +267,14 @@ export function SimpleEditor() {
               onBack={() => setMobileView("main")}
             />
           )}
-          <EditorSaveButton editor={editor} />
-          <EditorDraftButton editor={editor} />
+          {article ? (
+            <EditorUpdateButton id={article.id} editor={editor} />
+          ) : (
+            <div className="toolbar-save-buttons">
+              <EditorPublishButton editor={editor} />
+              <EditorDraftButton editor={editor} />
+            </div>
+          )}
         </Toolbar>
 
         <EditorContent

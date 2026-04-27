@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigation } from "react-router";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { useEffect } from "react";
@@ -24,8 +24,11 @@ function AppContent() {
 }
 
 function App() {
+  const navigation = useNavigation();
+
   return (
     <AuthProvider>
+      {navigation.state === "loading" && <LoadingSpinner />}
       <AppContent />
     </AuthProvider>
   );

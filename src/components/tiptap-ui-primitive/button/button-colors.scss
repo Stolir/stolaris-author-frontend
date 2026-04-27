@@ -5,7 +5,7 @@
 
   /* Light mode */
   --tt-button-default-bg-color: var(--tt-gray-light-a-100);
-  --tt-button-hover-bg-color: var(--tt-gray-light-200);
+  --tt-button-hover-bg-color: var(--primary-variant);
   --tt-button-active-bg-color: var(--tt-gray-light-a-200);
   --tt-button-active-bg-color-emphasized: var(
     --tt-brand-color-100
@@ -146,7 +146,7 @@
 
     /* Light mode */
     --tt-button-default-bg-color: var(--transparent);
-    --tt-button-hover-bg-color: var(--tt-gray-light-200);
+    --tt-button-hover-bg-color: var(--primary-variant);
     --tt-button-active-bg-color: var(--tt-gray-light-a-100);
     --tt-button-active-bg-color-emphasized: var(
       --tt-brand-color-100
@@ -292,7 +292,7 @@
 
     /* Light mode */
     --tt-button-default-bg-color: var(--tt-brand-color-500);
-    --tt-button-hover-bg-color: var(--tt-brand-color-600);
+    --tt-button-hover-bg-color: var(--primary-variant);
     --tt-button-active-bg-color: var(--tt-brand-color-100);
     --tt-button-active-bg-color-emphasized: var(
       --tt-brand-color-100

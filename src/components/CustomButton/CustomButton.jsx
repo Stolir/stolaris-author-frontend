@@ -1,4 +1,3 @@
-import { PagePlus } from "iconoir-react";
 import styles from "./CustomButton.module.css";
 
 function CustomButton({ type = "button", text, onClick, icon = null }) {

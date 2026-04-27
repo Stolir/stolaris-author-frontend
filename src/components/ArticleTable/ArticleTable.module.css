@@ -1,0 +1,141 @@
+.articleTable {
+  background-color: white;
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+.articleTable thead {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: grey;
+  font-weight: 500;
+}
+
+.articleTable th,
+td {
+  padding: 1.5rem;
+}
+
+tr > :nth-child(1) {
+  text-align: left;
+  width: 35%;
+}
+
+tr > :nth-child(2) {
+  text-align: left;
+  width: 15%;
+}
+
+tr > :nth-child(3),
+tr > :nth-child(4) {
+  text-align: left;
+  width: 15%;
+}
+tr > :nth-child(5) {
+  width: 10%;
+  text-align: center;
+}
+
+.articleTable tbody tr,
+.articleTable thead tr {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.07);
+}
+
+.articleTable a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.articleTable a:hover {
+  color: var(--primary-color);
+}
+
+.articleStatus {
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.DRAFT {
+  background-color: var(--status-draft-bg);
+  border: 1px var(--status-draft-border) solid;
+  color: var(--status-draft-text);
+}
+
+.PUBLISHED {
+  background-color: var(--status-published-bg);
+  border: 1px var(--status-published-border) solid;
+  color: var(--status-published-text);
+}
+
+.UNPUBLISHED {
+  background-color: var(--status-unpublished-bg);
+  border: 1px var(--status-unpublished-border) solid;
+  color: var(--status-unpublished-text);
+}
+
+.ARCHIVED {
+  background-color: var(--status-archived-bg);
+  border: 1px var(--status-archived-border) solid;
+  color: var(--status-archived-text);
+}
+
+.articleControls {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.articleControls:hover {
+  color: var(--primary-color);
+}
+
+.pageControls {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.pageControls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  max-width: 40px;
+  width: 100%;
+}
+
+.pageControls button.current {
+  background-color: var(--primary-variant);
+
+  padding: 0.3rem 1rem;
+  border-radius: 10px;
+  aspect-ratio: 1;
+  color: var(--background-color);
+  border: none;
+}
+
+.pageControls button:disabled {
+  cursor: default;
+}
+
+.pageControls svg {
+  width: 20px;
+}
+
+@media (max-width: 768px) {
+  .articleTable th,
+  td {
+    padding: 0.5rem;
+  }
+
+  .articleStatus {
+    padding: 0.3rem 0.6rem;
+  }
+}

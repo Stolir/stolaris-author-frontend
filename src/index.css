@@ -88,10 +88,32 @@ h6 {
   --secondary-color: #8da189;
   --tertiary-color: #2c2c2c;
   --background-color: #f4ece1;
+  --background-darker: #e1d9ce;
   --secondary-background-color: #2c1e1a;
+
+  /* Draft (yellowish) */
+  --status-draft-bg: #fef9c3; /* soft yellow */
+  --status-draft-border: #fde68a; /* warm yellow border */
+  --status-draft-text: #92400e; /* dark amber text */
+
+  /* Published (unchanged - green) */
+  --status-published-bg: #d1fae5;
+  --status-published-border: #6ee7b7;
+  --status-published-text: #065f46;
+
+  /* Unpublished (unchanged - red) */
+  --status-unpublished-bg: #fee2e2;
+  --status-unpublished-border: #fca5a5;
+  --status-unpublished-text: #7f1d1d;
+
+  /* Archived (grey) */
+  --status-archived-bg: #f3f4f6; /* light gray */
+  --status-archived-border: #d1d5db; /* neutral border */
+  --status-archived-text: #6b7280; /* muted text */
 
   --tt-bg-color: var(--background-color);
   --tt-card-bg-color: var(--background-color);
+  --tt-button-hover-bg-color: var(--primary-variant);
 }
 
 body {
@@ -104,6 +126,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: "Work sans";
+  overflow-y: hidden;
 }
 
 main {
@@ -112,7 +135,7 @@ main {
 
 #editor-wrapper .tiptap-toolbar {
   background-color: var(--secondary-background-color);
-  padding: 0.5rem;
+  padding: 0.8rem;
 }
 
 #editor-wrapper .tiptap-button-icon {
@@ -130,6 +153,31 @@ main {
 #editor-wrapper .tiptap-button[data-active-state="on"]:not([disabled]),
 .tiptap-button[data-state="open"]:not([disabled]),
 #editor-wrapper .tiptap-button[data-highlighted="true"],
+.tiptap-button[data-focus-visible="true"] {
+  background-color: var(--primary-variant);
+}
+
+.tiptap-toolbar,
+.toolbar-options,
+.toolbar-save-buttons {
+  display: flex;
+}
+
+.tiptap-toolbar {
+  justify-content: space-between;
+}
+
+.toolbar-save-buttons {
+  gap: 1.5rem;
+  max-width: 350px;
+  width: 100%;
+}
+
+.tiptap-button[data-highlighted="true"],
+.tiptap-button[data-focus-visible="true"] {
+  background-color: var(--primary-variant);
+}
+.tiptap-button[data-highlighted="true"],
 .tiptap-button[data-focus-visible="true"] {
   background-color: var(--primary-variant);
 }

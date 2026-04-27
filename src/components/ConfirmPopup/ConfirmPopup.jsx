@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styles from "./ConfirmPopup.module.css";
 
 function ConfirmPopup({ onConfirm, onClose, children }) {

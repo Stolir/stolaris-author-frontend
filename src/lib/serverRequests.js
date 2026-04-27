@@ -1,0 +1,104 @@
+export async function saveAsDraft(editor, setError) {
+  setError(null);
+  const doc = editor.getJSON();
+  const firstHeading = doc.content.find((block) => block.type === "heading");
+  if (!firstHeading || !firstHeading.content) {
+    setError("You must include at least one heading in the article");
+    return;
+  }
+  const title = firstHeading.content[0].text;
+  try {
+    const response = await fetch("/api/author/articles", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: title,
+        content: doc,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      if (data.errors) {
+        setError(data.errors.map((error) => error.msg)); // Input validation errors
+      } else {
+        setError(data.message); // Auth/Server errors
+      }
+      return;
+    }
+    return data;
+  } catch (err) {
+    setError(err);
+  }
+}
+
+export async function updateArticleStatus(articleId, action) {
+  try {
+    const response = await fetch(
+      `/api/author/articles/${articleId}/${action}`,
+      {
+        method: "POST",
+        credentials: "include",
+      },
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      setError(data.message);
+      return;
+    }
+    return data;
+  } catch (err) {
+    setError(err);
+  }
+}
+
+export async function getArticle(id, setError) {
+  try {
+    const response = await fetch(`/api/author/articles/${id}`, {
+      credentials: "include",
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      setError(data.message);
+      return;
+    }
+    return data;
+  } catch (err) {
+    setError(err);
+  }
+}
+
+export async function saveExistingArticle(articleId, editor, setError) {
+  setError(null);
+  const doc = editor.getJSON();
+  const firstHeading = doc.content.find((block) => block.type === "heading");
+  if (!firstHeading || !firstHeading.content) {
+    setError("You must include at least one heading in the article");
+    return;
+  }
+  const title = firstHeading.content[0].text;
+  try {
+    const response = await fetch(`/api/author/articles/${articleId}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: title,
+        content: doc,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      if (data.errors) {
+        setError(data.errors.map((error) => error.msg)); // Input validation errors
+      } else {
+        setError(data.message); // Auth/Server errors
+      }
+      return;
+    }
+    return data;
+  } catch (err) {
+    setError(err);
+  }
+}

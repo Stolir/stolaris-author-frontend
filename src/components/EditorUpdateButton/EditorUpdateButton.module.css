@@ -1,4 +1,4 @@
-.draftButton {
+.updateButton {
   border: none;
   padding: 0.6rem 0.3rem;
   background-color: var(--background-color);
@@ -6,7 +6,7 @@
   width: 100%;
 }
 
-.draftButton:hover {
+.updateButton:hover {
   cursor: pointer;
   background-color: var(--primary-variant);
   color: white;
