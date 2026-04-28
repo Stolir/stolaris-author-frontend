@@ -1,4 +1,12 @@
 .header {
   display: flex;
   justify-content: space-between;
+
+  position: relative;
+}
+
+.logoutButton {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
