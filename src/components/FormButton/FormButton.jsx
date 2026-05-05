@@ -1,6 +1,6 @@
 import styles from "./FormButton.module.css";
 
-function FormButton({ type, onClick, children }) {
+function FormButton({ type = "button", onClick, children }) {
   return (
     <button type={type} onClick={onClick} className={styles.formButton}>
       {children}

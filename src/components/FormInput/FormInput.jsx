@@ -11,6 +11,7 @@ function FormInput({
   placeholder,
   isRequired,
   error,
+  disabled = false,
 }) {
   return (
     <div className={styles.inputContainer}>
@@ -26,6 +27,7 @@ function FormInput({
         required={isRequired}
         className={error ? styles.validationError : ""}
         autoComplete={name}
+        disabled={disabled}
       />
       {error && <span className={styles.error}>{error}</span>}
     </div>
