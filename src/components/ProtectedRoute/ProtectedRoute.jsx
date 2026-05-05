@@ -5,8 +5,6 @@ import { useAuth } from "../../context/AuthContext";
 function ProtectedRoute() {
   const { user, loading } = useAuth();
 
-  console.log(user);
-
   if (loading) return <LoadingSpinner />;
   if (!user) return <Navigate to="/" />;
 

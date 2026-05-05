@@ -12,7 +12,7 @@
 
 .mainContent {
   display: grid;
-  grid-template: max-content 1fr / 1fr;
+  grid-template: minmax(55px, max-content) 1fr / 1fr;
   grid-template-areas:
     "navbar"
     "dashboard";

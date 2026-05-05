@@ -5,17 +5,14 @@ import {
   FastArrowLeft,
   FastArrowRight,
   MoreHoriz,
-  MoreVert,
-  MoreVertCircle,
   NavArrowLeft,
   NavArrowRight,
-  Settings,
 } from "iconoir-react";
 import { useEffect, useState } from "react";
 import ArticleTableOptions from "../ArticleTableOptions/ArticleTableOptions";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
 
-function ArticleTable({ data, currentFilter }) {
+function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
   const ITEMS_PER_PAGE = 5;
   const MAX_PAGES_DISPLAYED = 5;
 
@@ -89,14 +86,12 @@ function ArticleTable({ data, currentFilter }) {
 
   // Immediately remove from view when delete response is successful
   function removeArticle(id) {
-    setArticles((prev) => prev.filter((article) => article.id !== id));
+    onDelete(id);
   }
 
   // Immediately update status when backend response is successful
   function changeArticleStatus(id, status) {
-    setArticles((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, status } : item)),
-    );
+    onStatusChange(id, status);
   }
 
   // Close menu when clicking anywhere
@@ -224,6 +219,7 @@ function ArticleTable({ data, currentFilter }) {
                   .slice(0 + pageIncrement, MAX_PAGES_DISPLAYED + pageIncrement)
                   .map((page) => (
                     <button
+                      key={`p${page}`}
                       className={
                         page === pageInfo.currentPage ? styles.current : ""
                       }

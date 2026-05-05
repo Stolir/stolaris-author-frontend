@@ -5,8 +5,6 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 function AuthLayout() {
   const { user, loading } = useAuth();
 
-  console.log(user);
-
   if (loading) return <LoadingSpinner />;
   if (!user) return <Navigate to="/" />;
 

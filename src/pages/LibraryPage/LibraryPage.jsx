@@ -1,11 +1,11 @@
 import { useLoaderData, useOutletContext } from "react-router";
 import styles from "./LibraryPage.module.css";
-import { formatDateLocal } from "@/lib/utils";
 import ArticleTable from "@/components/ArticleTable/ArticleTable";
 import { useState } from "react";
 
 function LibraryPage() {
-  const articles = useLoaderData();
+  const data = useLoaderData();
+  const [articles, setArticles] = useState(data);
   const searchQuery = useOutletContext();
   const [currentFilter, setCurrentFilter] = useState(null);
   const filters = [
@@ -21,6 +21,16 @@ function LibraryPage() {
         article.title.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : articles;
+
+  function handleStatusChange(id, status) {
+    setArticles((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status } : item)),
+    );
+  }
+
+  function handleDelete(id) {
+    setArticles((prev) => prev.filter((article) => article.id !== id));
+  }
 
   return (
     <div className={styles.libraryWrapper}>
@@ -45,7 +55,12 @@ function LibraryPage() {
       </section>
       <section className={styles.articlesWrapper}>
         {articles.length > 0 ? (
-          <ArticleTable data={searchedArticles} currentFilter={currentFilter} />
+          <ArticleTable
+            data={searchedArticles}
+            currentFilter={currentFilter}
+            onStatusChange={handleStatusChange}
+            onDelete={handleDelete}
+          />
         ) : (
           <p>
             You have not written any articles yet. Press "Create New Article" on
