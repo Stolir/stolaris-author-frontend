@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/utils";
+import { getUser } from "@/lib/serverRequests";
 import { redirect } from "react-router";
 
 export async function articleLoader() {

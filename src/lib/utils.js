@@ -13,17 +13,3 @@ export function formatDateLocal(iso) {
     String(date.getDate()).padStart(2, "0")
   );
 }
-
-export async function getUser() {
-  try {
-    const response = await fetch("/auth/me", {
-      credentials: "include",
-    });
-    if (!response.ok) {
-      return null;
-    }
-    return await response.json();
-  } catch (err) {
-    return null;
-  }
-}
