@@ -126,7 +126,8 @@ body {
   display: flex;
   flex-direction: column;
   font-family: "Work sans";
-  overflow-y: hidden;
+  overflow-x: auto;
+  /* overflow-y: hidden; */
 }
 
 main {

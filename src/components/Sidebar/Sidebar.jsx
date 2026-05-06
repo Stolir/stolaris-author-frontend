@@ -10,7 +10,7 @@ function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <Link to="/author/dashboard" className={`${styles.logo}`}>
-        <p>STOLARIS</p>
+        <p className={styles.mainText}>STOLARIS</p>
         <p className={styles.logoSubtext}>EDITORIAL WORKSPACE</p>
       </Link>
       <section className={styles.navItems}>
@@ -19,7 +19,7 @@ function Sidebar() {
       </section>
       <section className={styles.controls}>
         <CustomButton
-          text={"Write New Article"}
+          text={"New Article"}
           icon={<PagePlus />}
           onClick={() => navigate("/author/editor")}
         />
