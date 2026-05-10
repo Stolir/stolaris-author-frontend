@@ -5,11 +5,13 @@ import FormInput from "@/components/FormInput/FormInput";
 import AlertBox from "@/components/AlertBox/AlertBox";
 import FormButton from "@/components/FormButton/FormButton";
 import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
+import SuccessBox from "@/components/SuccessBox/SuccessBox";
 
 function SettingsPage() {
   const { user, login } = useAuth();
   const [userInfo, setUserInfo] = useState(user);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [fieldErrors, setFieldErrors] = useState({});
   const [usernameStatus, setUsernameStatus] = useState(null);
 
@@ -115,7 +117,7 @@ function SettingsPage() {
         return;
       }
       // Display success message
-      // ....
+      setSuccess("Profile saved");
       login(data.user);
       console.log("success: ", data);
       setUserInfo(data.user);
@@ -128,140 +130,153 @@ function SettingsPage() {
   if (!userInfo) return <LoadingSpinner />;
 
   return (
-    <div className={styles.settingsContainer}>
-      {error && <AlertBox onClose={() => setError(null)}>{error}</AlertBox>}
-      <p>Configuration</p>
-      <section className={styles.topBar}>
-        <h1>Author Settings</h1>
-      </section>
-      <section className={styles.settingsControls}>
-        <form className={styles.settingsForm} onSubmit={handleSubmit}>
-          <FormInput
-            type="text"
-            id="name"
-            name="name"
-            onChange={(e) =>
-              setUserInfo((prev) => ({ ...prev, name: e.target.value }))
-            }
-            label={"Name"}
-            value={userInfo.name}
-            error={fieldErrors.name}
-            disabled={!isEditing}
-          />
-          <div className={styles.usernameField}>
+    <>
+      {success && (
+        <SuccessBox onClose={() => setSuccess(null)}>{success}</SuccessBox>
+      )}
+      <div className={styles.settingsContainer}>
+        {error && <AlertBox onClose={() => setError(null)}>{error}</AlertBox>}
+        <p>Configuration</p>
+        <section className={styles.topBar}>
+          <h1>Author Settings</h1>
+        </section>
+        <section className={styles.settingsControls}>
+          <form className={styles.settingsForm} onSubmit={handleSubmit}>
             <FormInput
               type="text"
-              id="username"
-              name="username"
+              id="name"
+              name="name"
               onChange={(e) =>
-                setUserInfo((prev) => ({ ...prev, username: e.target.value }))
+                setUserInfo((prev) => ({ ...prev, name: e.target.value }))
               }
-              onBlur={(e) => checkUsername(e.target.value)}
-              label={"Username"}
-              value={userInfo.username}
-              error={fieldErrors.username}
+              label={"Name"}
+              value={userInfo.name}
+              error={fieldErrors.name}
               disabled={!isEditing}
             />
-            {usernameStatus === true && (
-              <span className={styles.usernameSuccess}>
-                Username Available!
-              </span>
-            )}
-            {usernameStatus === false && (
-              <span className={styles.usernameFail}>
-                Username Not Available.
-              </span>
-            )}
-          </div>
-          <FormInput
-            type="text"
-            id="email"
-            name="email"
-            onChange={(e) =>
-              setUserInfo((prev) => ({ ...prev, email: e.target.value }))
-            }
-            label={"Email"}
-            value={userInfo.email}
-            error={fieldErrors.email}
-            disabled={!isEditing}
-          />
-          <div className={styles.passwordWrapper}>
-            {changePassword && (
-              <>
-                <FormInput
-                  type="password"
-                  id="newPassword"
-                  name="newPassword"
-                  onChange={(e) =>
-                    setUserInfo((prev) => ({
-                      ...prev,
-                      newPassword: e.target.value,
-                    }))
-                  }
-                  value={userInfo.newPassword || ""}
-                  label={"New Password"}
-                  error={fieldErrors.newPassword}
-                />
-                <FormInput
-                  type="password"
-                  id="confirmNewPassword"
-                  name="confirmNewPassword"
-                  onChange={(e) =>
-                    setUserInfo((prev) => ({
-                      ...prev,
-                      confirmNewPassword: e.target.value,
-                    }))
-                  }
-                  value={userInfo.confirmNewPassword || ""}
-                  label={"Confirm New Password"}
-                  error={fieldErrors.confirmNewPassword}
-                />
-              </>
-            )}
-            <button
-              className={styles.changePassword}
-              type="button"
-              disabled={!isEditing}
-              onClick={() => {
-                toggleChangePassword();
-              }}
-            >
-              {!changePassword ? "Change password" : "Cancel"}
-            </button>
-          </div>
-          {(changePassword || userInfo.email !== user.email) && (
+            <div className={styles.usernameField}>
+              <FormInput
+                type="text"
+                id="username"
+                name="username"
+                onChange={(e) =>
+                  setUserInfo((prev) => ({ ...prev, username: e.target.value }))
+                }
+                onBlur={(e) => checkUsername(e.target.value)}
+                label={"Username"}
+                value={userInfo.username}
+                error={fieldErrors.username}
+                disabled={!isEditing}
+              />
+              {usernameStatus === true && (
+                <span className={styles.usernameSuccess}>
+                  Username Available!
+                </span>
+              )}
+              {usernameStatus === false && (
+                <span className={styles.usernameFail}>
+                  Username Not Available.
+                </span>
+              )}
+            </div>
             <FormInput
-              type="password"
-              id="currentPassword"
-              name="currentPassword"
+              type="text"
+              id="email"
+              name="email"
               onChange={(e) =>
-                setUserInfo((prev) => ({
-                  ...prev,
-                  currentPassword: e.target.value,
-                }))
+                setUserInfo((prev) => ({ ...prev, email: e.target.value }))
               }
-              value={userInfo.currentPassword || ""}
-              label={"Current Password"}
-              error={fieldErrors.currentPassword}
+              label={"Email"}
+              value={userInfo.email}
+              error={fieldErrors.email}
+              disabled={!isEditing}
             />
-          )}
-          <div className={styles.buttonContainer}>
-            {isEditing ? (
-              <>
-                <FormButton type="submit">Save</FormButton>
-                <FormButton type="button" onClick={toggleEditing}>
-                  Cancel
-                </FormButton>
-              </>
-            ) : (
-              <FormButton type="button" onClick={(e) => toggleEditing(e)}>
-                Edit
-              </FormButton>
+            <div className={styles.passwordWrapper}>
+              {changePassword && (
+                <>
+                  <FormInput
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    onChange={(e) =>
+                      setUserInfo((prev) => ({
+                        ...prev,
+                        newPassword: e.target.value,
+                      }))
+                    }
+                    value={userInfo.newPassword || ""}
+                    label={"New Password"}
+                    error={fieldErrors.newPassword}
+                  />
+                  <FormInput
+                    type="password"
+                    id="confirmNewPassword"
+                    name="confirmNewPassword"
+                    onChange={(e) =>
+                      setUserInfo((prev) => ({
+                        ...prev,
+                        confirmNewPassword: e.target.value,
+                      }))
+                    }
+                    value={userInfo.confirmNewPassword || ""}
+                    label={"Confirm New Password"}
+                    error={fieldErrors.confirmNewPassword}
+                  />
+                </>
+              )}
+              <button
+                className={styles.changePassword}
+                type="button"
+                disabled={!isEditing}
+                onClick={() => {
+                  toggleChangePassword();
+                }}
+              >
+                {!changePassword ? "Change password" : "Cancel"}
+              </button>
+            </div>
+            {(changePassword || userInfo.email !== user.email) && (
+              <FormInput
+                type="password"
+                id="currentPassword"
+                name="currentPassword"
+                onChange={(e) =>
+                  setUserInfo((prev) => ({
+                    ...prev,
+                    currentPassword: e.target.value,
+                  }))
+                }
+                value={userInfo.currentPassword || ""}
+                label={"Current Password"}
+                error={fieldErrors.currentPassword}
+              />
             )}
-          </div>
-        </form>
-      </section>
-    </div>
+            <div className={styles.buttonContainer}>
+              {isEditing ? (
+                <>
+                  <FormButton
+                    type="submit"
+                    disabled={
+                      usernameStatus === false ||
+                      Object.keys(fieldErrors).length >= 1
+                    }
+                  >
+                    Save
+                  </FormButton>
+                  <FormButton type="button" onClick={toggleEditing}>
+                    Cancel
+                  </FormButton>
+                </>
+              ) : (
+                <FormButton type="button" onClick={(e) => toggleEditing(e)}>
+                  Edit
+                </FormButton>
+              )}
+            </div>
+          </form>
+        </section>
+      </div>
+    </>
   );
 }
 

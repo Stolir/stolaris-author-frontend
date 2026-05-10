@@ -11,10 +11,15 @@ import {
 import { useEffect, useState } from "react";
 import ArticleTableOptions from "../ArticleTableOptions/ArticleTableOptions";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
+import SuccessBox from "../SuccessBox/SuccessBox";
+import AlertBox from "../AlertBox/AlertBox";
 
 function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
   const ITEMS_PER_PAGE = 5;
   const MAX_PAGES_DISPLAYED = 5;
+
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const [articles, setArticles] = useState(data);
   const [pageInfo, setPageInfo] = useState({
@@ -152,6 +157,10 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
     : 0;
   return (
     <>
+      {error && <AlertBox onClose={() => setError(null)}>{error}</AlertBox>}
+      {success && (
+        <SuccessBox onClose={() => setSuccess(null)}>{success}</SuccessBox>
+      )}
       {confirmPopupOpt.shown && (
         <ConfirmPopup
           onConfirm={confirmPopupOpt.onConfirm}
@@ -254,6 +263,8 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
           setConfirmPopupOpt={setConfirmPopupOpt}
           removeArticle={removeArticle}
           changeArticleStatus={changeArticleStatus}
+          setError={setError}
+          setSuccess={setSuccess}
         />
       )}
     </>

@@ -77,6 +77,19 @@ button.changePassword:disabled {
   gap: 1rem;
 }
 
+.usernameSuccess,
+.usernameFail {
+  font-size: 0.65rem;
+}
+
+.usernameFail {
+  color: rgb(143, 36, 36);
+}
+
+.usernameSuccess {
+  color: rgb(40, 105, 40);
+}
+
 @media (max-width: 768px) {
   .topBar h1 {
     font-size: 2rem;

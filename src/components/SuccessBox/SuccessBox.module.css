@@ -1,0 +1,28 @@
+.alertBox {
+  display: flex;
+  gap: 0.7rem;
+  background-color: rgb(37, 102, 46);
+  color: white;
+  position: absolute;
+  opacity: 0.9;
+  padding: 1rem;
+
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  z-index: 1000;
+}
+
+.closeButton {
+  border: none;
+  background: none;
+  color: white;
+  opacity: 0.6;
+  cursor: pointer;
+  padding: 0;
+}
+
+.closeButton:hover {
+  opacity: 1;
+}

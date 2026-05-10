@@ -32,7 +32,7 @@ export async function saveAsDraft(editor, setError) {
   }
 }
 
-export async function updateArticleStatus(articleId, action) {
+export async function updateArticleStatus(articleId, action, setError) {
   try {
     const response = await fetch(
       `/api/author/articles/${articleId}/${action}`,

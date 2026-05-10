@@ -1,7 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ArticleTableOptions.module.css";
-import AlertBox from "../AlertBox/AlertBox";
-import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
 import { updateArticleStatus } from "@/lib/serverRequests";
 
 function ArticleTableOptions({
@@ -10,9 +8,9 @@ function ArticleTableOptions({
   setConfirmPopupOpt,
   removeArticle,
   changeArticleStatus,
+  setError,
+  setSuccess,
 }) {
-  const [error, setError] = useState(null);
-
   async function showConfirmHandler(callback) {
     setConfirmPopupOpt({ shown: true, onConfirm: callback });
   }
@@ -29,15 +27,20 @@ function ArticleTableOptions({
         return;
       }
       removeArticle(articleId);
+      setSuccess("Successfully deleted article");
       setConfirmPopupOpt({ shown: false, onConfirm: null });
+      console.log("running");
     } catch (err) {
       setError(err.message || "Network error");
     }
   }
 
   async function changeStatusHandler(articleId, action) {
-    const article = await updateArticleStatus(articleId, action);
-    changeArticleStatus(articleId, article.status);
+    const article = await updateArticleStatus(articleId, action, setError);
+    if (article) {
+      changeArticleStatus(articleId, article.status);
+      setSuccess(`Successfully updated article status to: ${article.status}`);
+    }
   }
 
   const statuses = [
@@ -49,7 +52,6 @@ function ArticleTableOptions({
 
   return (
     <>
-      {error && <AlertBox onClose={() => setError(null)}>{error}</AlertBox>}
       <ul
         style={{ position: "absolute", top: position.y, left: position.x }}
         className={styles.optionMenu}
