@@ -55,7 +55,6 @@ function LoginForm() {
         return;
       }
       login(data.user);
-      console.log(data.user);
       navigate("/author/dashboard");
     } catch (err) {
       setError("An error occurred. Please try again.");

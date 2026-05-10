@@ -29,7 +29,6 @@ function ArticleTableOptions({
       removeArticle(articleId);
       setSuccess("Successfully deleted article");
       setConfirmPopupOpt({ shown: false, onConfirm: null });
-      console.log("running");
     } catch (err) {
       setError(err.message || "Network error");
     }

@@ -87,8 +87,6 @@ function SettingsPage() {
     setError(null);
     setFieldErrors({});
     const formData = new FormData(e.target);
-    console.log(formData);
-
     try {
       const response = await fetch("/auth/me", {
         method: "PATCH",
@@ -119,7 +117,6 @@ function SettingsPage() {
       // Display success message
       setSuccess("Profile saved");
       login(data.user);
-      console.log("success: ", data);
       setUserInfo(data.user);
       toggleEditing(e, data.user);
     } catch {
@@ -254,15 +251,7 @@ function SettingsPage() {
             <div className={styles.buttonContainer}>
               {isEditing ? (
                 <>
-                  <FormButton
-                    type="submit"
-                    disabled={
-                      usernameStatus === false ||
-                      Object.keys(fieldErrors).length >= 1
-                    }
-                  >
-                    Save
-                  </FormButton>
+                  <FormButton type="submit">Save</FormButton>
                   <FormButton type="button" onClick={toggleEditing}>
                     Cancel
                   </FormButton>

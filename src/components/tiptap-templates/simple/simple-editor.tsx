@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   EditorContent,
   EditorContext,
@@ -16,7 +16,8 @@ import { Typography } from "@tiptap/extension-typography";
 import { Highlight } from "@tiptap/extension-highlight";
 import { Subscript } from "@tiptap/extension-subscript";
 import { Superscript } from "@tiptap/extension-superscript";
-import { Selection } from "@tiptap/extensions";
+import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
+import { all, createLowlight } from "lowlight";
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button";
@@ -67,119 +68,148 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
 
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss";
-import EditorSaveButton from "@/components/EditorSaveButton/EditorSaveButton";
+import css from "highlight.js/lib/languages/css";
+import js from "highlight.js/lib/languages/javascript";
+import ts from "highlight.js/lib/languages/typescript";
+import html from "highlight.js/lib/languages/xml";
 
 import templateContent from "./data/content.json";
 import EditorDraftButton from "@/components/EditorDraftButton/EditorDraftButton";
 import EditorPublishButton from "@/components/EditorPublishButton/EditorPublishButton";
-import { Home, HomeSimple } from "iconoir-react";
 import HomeButton from "@/components/HomeButton/HomeButton";
 import EditorUpdateButton from "@/components/EditorUpdateButton/EditorUpdateButton";
 
-const MainToolbarContent = ({
-  onHighlighterClick,
-  onLinkClick,
-  isMobile,
-}: {
-  onHighlighterClick: () => void;
-  onLinkClick: () => void;
-  isMobile: boolean;
-}) => {
-  return (
-    <div className="toolbar-options">
-      <Spacer />
+const lowlight = createLowlight();
+lowlight.register("html", html);
+lowlight.register("css", css);
+lowlight.register("js", js);
+lowlight.register("ts", ts);
 
+const extensions = [
+  StarterKit.configure({
+    horizontalRule: false,
+    codeBlock: false,
+    link: {
+      openOnClick: false,
+      enableClickSelection: true,
+    },
+  }),
+  HorizontalRule,
+  TextAlign.configure({ types: ["heading", "paragraph"] }),
+  TaskList,
+  CodeBlockLowlight.configure({
+    lowlight,
+    defaultLanguage: null,
+  }),
+  TaskItem.configure({ nested: true }),
+  Highlight.configure({ multicolor: true }),
+  Typography,
+  Superscript,
+  Subscript,
+];
+
+const MainToolbarContent = memo(
+  ({
+    onHighlighterClick,
+    onLinkClick,
+    isMobile,
+  }: {
+    onHighlighterClick: () => void;
+    onLinkClick: () => void;
+    isMobile: boolean;
+  }) => {
+    return (
+      <div className="toolbar-options">
+        <Spacer />
+
+        <ToolbarGroup>
+          <HomeButton />
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          <UndoRedoButton action="undo" />
+          <UndoRedoButton action="redo" />
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          <HeadingDropdownMenu modal={false} levels={[1, 2, 3, 4]} />
+          <ListDropdownMenu
+            modal={false}
+            types={["bulletList", "orderedList", "taskList"]}
+          />
+          <BlockquoteButton />
+          <CodeBlockButton />
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          <MarkButton type="bold" />
+          <MarkButton type="italic" />
+          <MarkButton type="strike" />
+          <MarkButton type="code" />
+          <MarkButton type="underline" />
+          {!isMobile ? (
+            <ColorHighlightPopover />
+          ) : (
+            <ColorHighlightPopoverButton onClick={onHighlighterClick} />
+          )}
+          {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          <MarkButton type="superscript" />
+          <MarkButton type="subscript" />
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <ToolbarGroup>
+          <TextAlignButton align="left" />
+          <TextAlignButton align="center" />
+          <TextAlignButton align="right" />
+          <TextAlignButton align="justify" />
+        </ToolbarGroup>
+
+        <ToolbarSeparator />
+
+        <Spacer />
+
+        {isMobile && <ToolbarSeparator />}
+      </div>
+    );
+  },
+);
+
+const MobileToolbarContent = memo(
+  ({ type, onBack }: { type: "highlighter" | "link"; onBack: () => void }) => (
+    <>
       <ToolbarGroup>
-        <HomeButton />
+        <Button variant="ghost" onClick={onBack}>
+          <ArrowLeftIcon className="tiptap-button-icon" />
+          {type === "highlighter" ? (
+            <HighlighterIcon className="tiptap-button-icon" />
+          ) : (
+            <LinkIcon className="tiptap-button-icon" />
+          )}
+        </Button>
       </ToolbarGroup>
 
       <ToolbarSeparator />
 
-      <ToolbarGroup>
-        <UndoRedoButton action="undo" />
-        <UndoRedoButton action="redo" />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup>
-        <HeadingDropdownMenu modal={false} levels={[1, 2, 3, 4]} />
-        <ListDropdownMenu
-          modal={false}
-          types={["bulletList", "orderedList", "taskList"]}
-        />
-        <BlockquoteButton />
-        <CodeBlockButton />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup>
-        <MarkButton type="bold" />
-        <MarkButton type="italic" />
-        <MarkButton type="strike" />
-        <MarkButton type="code" />
-        <MarkButton type="underline" />
-        {!isMobile ? (
-          <ColorHighlightPopover />
-        ) : (
-          <ColorHighlightPopoverButton onClick={onHighlighterClick} />
-        )}
-        {!isMobile ? <LinkPopover /> : <LinkButton onClick={onLinkClick} />}
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup>
-        <MarkButton type="superscript" />
-        <MarkButton type="subscript" />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <ToolbarGroup>
-        <TextAlignButton align="left" />
-        <TextAlignButton align="center" />
-        <TextAlignButton align="right" />
-        <TextAlignButton align="justify" />
-      </ToolbarGroup>
-
-      <ToolbarSeparator />
-
-      <Spacer />
-
-      {isMobile && <ToolbarSeparator />}
-    </div>
-  );
-};
-
-const MobileToolbarContent = ({
-  type,
-  onBack,
-}: {
-  type: "highlighter" | "link";
-  onBack: () => void;
-}) => (
-  <>
-    <ToolbarGroup>
-      <Button variant="ghost" onClick={onBack}>
-        <ArrowLeftIcon className="tiptap-button-icon" />
-        {type === "highlighter" ? (
-          <HighlighterIcon className="tiptap-button-icon" />
-        ) : (
-          <LinkIcon className="tiptap-button-icon" />
-        )}
-      </Button>
-    </ToolbarGroup>
-
-    <ToolbarSeparator />
-
-    {type === "highlighter" ? (
-      <ColorHighlightPopoverContent />
-    ) : (
-      <LinkContent />
-    )}
-  </>
+      {type === "highlighter" ? (
+        <ColorHighlightPopoverContent />
+      ) : (
+        <LinkContent />
+      )}
+    </>
+  ),
 );
 
 export function SimpleEditor({ article }: { article: any }) {
@@ -190,31 +220,7 @@ export function SimpleEditor({ article }: { article: any }) {
   );
   const toolbarRef = useRef<HTMLDivElement>(null);
 
-  const extensions = useMemo(
-    () => [
-      StarterKit.configure({
-        horizontalRule: false,
-        link: {
-          openOnClick: false,
-          enableClickSelection: true,
-        },
-      }),
-      HorizontalRule,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-      TaskList,
-      TaskItem.configure({ nested: true }),
-      Highlight.configure({ multicolor: true }),
-      Typography,
-      Superscript,
-      Subscript,
-      Selection,
-    ],
-    [],
-  );
-
-  useEffect(() => {
-    console.log("editor:", article);
-  }, [article]);
+  const initialContentRef = useRef(article?.content || templateContent);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -228,7 +234,8 @@ export function SimpleEditor({ article }: { article: any }) {
       },
     },
     extensions,
-    content: article?.content || templateContent,
+    content: initialContentRef.current,
+    shouldRerenderOnTransaction: false,
   });
 
   const rect = useCursorVisibility({
@@ -242,29 +249,33 @@ export function SimpleEditor({ article }: { article: any }) {
     }
   }, [isMobile, mobileView]);
 
+  const handleHighlighterClick = useCallback(
+    () => setMobileView("highlighter"),
+    [],
+  );
+  const handleLinkClick = useCallback(() => setMobileView("link"), []);
+  const handleBack = useCallback(() => setMobileView("main"), []);
+
+  const toolbarStyle = useMemo(
+    () =>
+      isMobile ? { bottom: `calc(100% - ${height - rect.y}px)` } : undefined,
+    [isMobile, height, rect.y],
+  );
+
   return (
     <div className="simple-editor-wrapper">
       <EditorContext.Provider value={{ editor }}>
-        <Toolbar
-          ref={toolbarRef}
-          style={{
-            ...(isMobile
-              ? {
-                  bottom: `calc(100% - ${height - rect.y}px)`,
-                }
-              : {}),
-          }}
-        >
+        <Toolbar ref={toolbarRef} style={toolbarStyle}>
           {mobileView === "main" ? (
             <MainToolbarContent
-              onHighlighterClick={() => setMobileView("highlighter")}
-              onLinkClick={() => setMobileView("link")}
+              onHighlighterClick={handleHighlighterClick}
+              onLinkClick={handleLinkClick}
               isMobile={isMobile}
             />
           ) : (
             <MobileToolbarContent
               type={mobileView === "highlighter" ? "highlighter" : "link"}
-              onBack={() => setMobileView("main")}
+              onBack={handleBack}
             />
           )}
           {article ? (
