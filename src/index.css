@@ -113,9 +113,14 @@ h6 {
   --status-archived-border: #d1d5db; /* neutral border */
   --status-archived-text: #6b7280; /* muted text */
 
+  /* Tiptap overrides */
   --tt-bg-color: var(--background-color);
   --tt-card-bg-color: var(--background-color);
   --tt-button-hover-bg-color: var(--primary-variant);
+
+  /* Alert Colors */
+  --alert-error: rgb(124, 37, 37);
+  --alert-success: rgb(37, 102, 46);
 }
 
 body {

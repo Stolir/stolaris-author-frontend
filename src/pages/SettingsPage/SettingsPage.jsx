@@ -5,7 +5,6 @@ import FormInput from "@/components/FormInput/FormInput";
 import AlertBox from "@/components/AlertBox/AlertBox";
 import FormButton from "@/components/FormButton/FormButton";
 import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
-import SuccessBox from "@/components/SuccessBox/SuccessBox";
 
 function SettingsPage() {
   const { user, login } = useAuth();
@@ -129,10 +128,13 @@ function SettingsPage() {
   return (
     <>
       {success && (
-        <SuccessBox onClose={() => setSuccess(null)}>{success}</SuccessBox>
+        <AlertBox type={"success"} onClose={() => setSuccess(null)}>
+          {success}
+        </AlertBox>
       )}
       <div className={styles.settingsContainer}>
         {error && <AlertBox onClose={() => setError(null)}>{error}</AlertBox>}
+
         <p>Configuration</p>
         <section className={styles.topBar}>
           <h1>Author Settings</h1>

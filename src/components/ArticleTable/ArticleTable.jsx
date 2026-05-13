@@ -8,15 +8,16 @@ import {
   NavArrowLeft,
   NavArrowRight,
 } from "iconoir-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArticleTableOptions from "../ArticleTableOptions/ArticleTableOptions";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
-import SuccessBox from "../SuccessBox/SuccessBox";
 import AlertBox from "../AlertBox/AlertBox";
+import FocusTrap from "../FocusTrap/FocusTrap";
 
 function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
   const ITEMS_PER_PAGE = 5;
   const MAX_PAGES_DISPLAYED = 5;
+  const menuBtnRef = useRef(null);
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -64,6 +65,7 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
   // Open and close options menu
   function handleOpenMenu(e, item) {
     e.stopPropagation();
+    menuBtnRef.current = e.target.closest("button");
 
     const rect = e.currentTarget.getBoundingClientRect();
 
@@ -77,6 +79,13 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
 
   function handleCloseMenu() {
     setMenuState((prev) => ({ ...prev, open: false }));
+  }
+
+  function handleClosePopup(setState) {
+    setState(null);
+    if (menuBtnRef) {
+      menuBtnRef.current.focus();
+    }
   }
 
   // State and functions for the actions within the options menu
@@ -97,11 +106,12 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
   // Immediately update status when backend response is successful
   function changeArticleStatus(id, status) {
     onStatusChange(id, status);
+    menuBtnRef.current.focus();
   }
 
   // Close menu when clicking anywhere
   useEffect(() => {
-    function handleClick(e) {
+    function handleClick() {
       handleCloseMenu();
     }
 
@@ -157,10 +167,6 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
     : 0;
   return (
     <>
-      {error && <AlertBox onClose={() => setError(null)}>{error}</AlertBox>}
-      {success && (
-        <SuccessBox onClose={() => setSuccess(null)}>{success}</SuccessBox>
-      )}
       {confirmPopupOpt.shown && (
         <ConfirmPopup
           onConfirm={confirmPopupOpt.onConfirm}
@@ -169,6 +175,27 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
           Are you sure you want to delete this article?
         </ConfirmPopup>
       )}
+      {error && (
+        <AlertBox
+          type={"error"}
+          onClose={() => {
+            handleClosePopup(setError);
+          }}
+        >
+          {error}
+        </AlertBox>
+      )}
+      {success && (
+        <AlertBox
+          type={"success"}
+          onClose={() => {
+            handleClosePopup(setSuccess);
+          }}
+        >
+          {success}
+        </AlertBox>
+      )}
+
       <table className={styles.articleTable}>
         <thead>
           <tr>
@@ -257,15 +284,21 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
         </tfoot>
       </table>
       {menuState.open && (
-        <ArticleTableOptions
-          article={menuState.item}
-          position={{ x: menuState.x, y: menuState.y }}
-          setConfirmPopupOpt={setConfirmPopupOpt}
-          removeArticle={removeArticle}
-          changeArticleStatus={changeArticleStatus}
-          setError={setError}
-          setSuccess={setSuccess}
-        />
+        <FocusTrap
+          isOpen={menuState.open}
+          onClose={handleCloseMenu}
+          focusOnCloseRef={menuBtnRef}
+        >
+          <ArticleTableOptions
+            article={menuState.item}
+            position={{ x: menuState.x, y: menuState.y }}
+            setConfirmPopupOpt={setConfirmPopupOpt}
+            removeArticle={removeArticle}
+            changeArticleStatus={changeArticleStatus}
+            setError={setError}
+            setSuccess={setSuccess}
+          />
+        </FocusTrap>
       )}
     </>
   );

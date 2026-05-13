@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styles from "./ArticleTableOptions.module.css";
 import { updateArticleStatus } from "@/lib/serverRequests";
 
