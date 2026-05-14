@@ -94,8 +94,9 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
     onConfirm: null,
   });
 
-  async function cancelChoiceHandler() {
+  async function closeConfirmPopup() {
     setConfirmPopupOpt({ shown: false, onConfirm: null });
+    // menuBtnRef.current.focus();
   }
 
   // Immediately remove from view when delete response is successful
@@ -170,7 +171,9 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
       {confirmPopupOpt.shown && (
         <ConfirmPopup
           onConfirm={confirmPopupOpt.onConfirm}
-          onClose={cancelChoiceHandler}
+          onClose={closeConfirmPopup}
+          isOpen={confirmPopupOpt.shown}
+          focusOnCloseRef={menuBtnRef}
         >
           Are you sure you want to delete this article?
         </ConfirmPopup>
@@ -293,6 +296,7 @@ function ArticleTable({ data, currentFilter, onStatusChange, onDelete }) {
             article={menuState.item}
             position={{ x: menuState.x, y: menuState.y }}
             setConfirmPopupOpt={setConfirmPopupOpt}
+            onCloseConformPopup={closeConfirmPopup}
             removeArticle={removeArticle}
             changeArticleStatus={changeArticleStatus}
             setError={setError}

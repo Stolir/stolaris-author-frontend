@@ -5,6 +5,7 @@ function ArticleTableOptions({
   article,
   position,
   setConfirmPopupOpt,
+  onCloseConfirmPopup,
   removeArticle,
   changeArticleStatus,
   setError,
@@ -27,7 +28,7 @@ function ArticleTableOptions({
       }
       removeArticle(articleId);
       setSuccess("Successfully deleted article");
-      setConfirmPopupOpt({ shown: false, onConfirm: null });
+      onCloseConfirmPopup();
     } catch (err) {
       setError(err.message || "Network error");
     }
