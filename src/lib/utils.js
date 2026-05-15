@@ -15,7 +15,6 @@ export function formatDateLocal(iso) {
 }
 
 export function isDeepEqual(obj1, obj2) {
-  console.log(obj1, obj2);
   if (obj1 === obj2) return true;
 
   if (Number.isNaN(obj1) && Number.isNaN(obj2)) return true;

@@ -78,6 +78,8 @@ import EditorDraftButton from "@/components/EditorDraftButton/EditorDraftButton"
 import EditorPublishButton from "@/components/EditorPublishButton/EditorPublishButton";
 import HomeButton from "@/components/HomeButton/HomeButton";
 import EditorUpdateButton from "@/components/EditorUpdateButton/EditorUpdateButton";
+import { isDeepEqual } from "@/lib/utils";
+import { useBlocker } from "react-router";
 
 const lowlight = createLowlight();
 lowlight.register("html", html);
@@ -248,6 +250,39 @@ export function SimpleEditor({ article }: { article: any }) {
       setMobileView("main");
     }
   }, [isMobile, mobileView]);
+
+  const [editorIsChanged, setEditorIsChanged] = useState(false);
+
+  editor?.on("update", () => setEditorIsChanged(true));
+
+  const shouldBlock = useCallback(() => editorIsChanged, [editorIsChanged]);
+
+  const blocker = useBlocker(shouldBlock);
+
+  useEffect(() => {
+    if (!editorIsChanged) return;
+
+    if (blocker.state === "blocked") {
+      const confirmed = confirm(
+        "You have unsaved changed, Are you sure you want to leave?",
+      );
+      if (confirmed) {
+        blocker.proceed();
+      } else {
+        blocker.reset();
+      }
+      return;
+    }
+
+    function beforeUnloadHandler(e: BeforeUnloadEvent) {
+      e.preventDefault();
+    }
+    window.addEventListener("beforeunload", beforeUnloadHandler);
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
+    };
+  }, [editorIsChanged, blocker]);
 
   const handleHighlighterClick = useCallback(
     () => setMobileView("highlighter"),

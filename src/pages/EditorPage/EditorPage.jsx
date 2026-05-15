@@ -14,23 +14,16 @@ function EditorPage() {
 
   useEffect(() => {
     const fetchArticle = async () => {
-      console.log("running fetch");
       if (!articleId) {
         setLoading(false);
         return;
       }
       const data = await getArticle(articleId, setError);
-      console.log(data);
       setArticle(data);
       setLoading(false);
     };
     fetchArticle();
   }, [articleId]);
-
-  useEffect(() => {
-    console.log("article: ", article);
-    console.log("error: ", error);
-  }, [article]);
 
   if (error)
     return (
