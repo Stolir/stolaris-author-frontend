@@ -80,6 +80,7 @@ import HomeButton from "@/components/HomeButton/HomeButton";
 import EditorUpdateButton from "@/components/EditorUpdateButton/EditorUpdateButton";
 import { isDeepEqual } from "@/lib/utils";
 import { useBlocker } from "react-router";
+import { CharacterCount } from "@tiptap/extensions";
 
 const lowlight = createLowlight();
 lowlight.register("html", html);
@@ -108,6 +109,7 @@ const extensions = [
   Typography,
   Superscript,
   Subscript,
+  CharacterCount,
 ];
 
 const MainToolbarContent = memo(
@@ -251,16 +253,17 @@ export function SimpleEditor({ article }: { article: any }) {
     }
   }, [isMobile, mobileView]);
 
-  const [editorIsChanged, setEditorIsChanged] = useState(false);
+  const [editorIsUnsaved, setEditorIsUnsaved] = useState(false);
+  const btnContainer = useRef<HTMLDivElement>(null);
 
-  editor?.on("update", () => setEditorIsChanged(true));
+  editor?.on("update", () => setEditorIsUnsaved(true));
 
-  const shouldBlock = useCallback(() => editorIsChanged, [editorIsChanged]);
+  const shouldBlock = useCallback(() => editorIsUnsaved, [editorIsUnsaved]);
 
   const blocker = useBlocker(shouldBlock);
 
   useEffect(() => {
-    if (!editorIsChanged) return;
+    if (!editorIsUnsaved) return;
 
     if (blocker.state === "blocked") {
       const confirmed = confirm(
@@ -282,7 +285,26 @@ export function SimpleEditor({ article }: { article: any }) {
     return () => {
       window.removeEventListener("beforeunload", beforeUnloadHandler);
     };
-  }, [editorIsChanged, blocker]);
+  }, [editorIsUnsaved, blocker]);
+
+  useEffect(() => {
+    if (editorIsUnsaved && btnContainer.current) {
+      function cancelBlockNav() {
+        setEditorIsUnsaved(false);
+      }
+
+      const buttons = btnContainer.current.querySelectorAll("button");
+      buttons.forEach((button) => {
+        button.addEventListener("click", cancelBlockNav);
+      });
+
+      return () => {
+        buttons.forEach((button) => {
+          button.removeEventListener("click", cancelBlockNav);
+        });
+      };
+    }
+  });
 
   const handleHighlighterClick = useCallback(
     () => setMobileView("highlighter"),
@@ -313,14 +335,16 @@ export function SimpleEditor({ article }: { article: any }) {
               onBack={handleBack}
             />
           )}
-          {article ? (
-            <EditorUpdateButton id={article.id} editor={editor} />
-          ) : (
-            <div className="toolbar-save-buttons">
-              <EditorPublishButton editor={editor} />
-              <EditorDraftButton editor={editor} />
-            </div>
-          )}
+          <div className="toolbar-save-buttons" ref={btnContainer}>
+            {article ? (
+              <EditorUpdateButton id={article.id} editor={editor} />
+            ) : (
+              <>
+                <EditorPublishButton editor={editor} />
+                <EditorDraftButton editor={editor} />
+              </>
+            )}
+          </div>
         </Toolbar>
 
         <EditorContent
