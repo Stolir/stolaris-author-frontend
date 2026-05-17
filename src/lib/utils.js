@@ -41,3 +41,26 @@ export function isDeepEqual(obj1, obj2) {
   }
   return true;
 }
+
+export function getProseWords(editor) {
+  let wordCount = 0;
+  let codeLines = 0;
+
+  editor.state.doc.descendants((node) => {
+    if (node.type.name === "codeBlock") {
+      codeLines += node.textContent
+        .split("\n")
+        .filter((line) => line.trim() !== "").length;
+      return false;
+    } else {
+      wordCount += editor.storage.characterCount.words({ node });
+      return false;
+    }
+  });
+  return { wordCount, codeLines };
+}
+
+export function getReadTime(editor) {
+  const readInfo = getProseWords(editor);
+  return Math.ceil(readInfo.wordCount / 238 + readInfo.codeLines / 10);
+}

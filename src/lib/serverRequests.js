@@ -1,3 +1,5 @@
+import { getReadTime } from "./utils";
+
 export async function saveAsDraft(editor, setError) {
   setError(null);
   const doc = editor.getJSON();
@@ -7,6 +9,7 @@ export async function saveAsDraft(editor, setError) {
     return;
   }
   const title = firstHeading.content[0].text;
+  const readTime = getReadTime(editor);
   try {
     const response = await fetch("/api/author/articles", {
       method: "POST",
@@ -15,6 +18,7 @@ export async function saveAsDraft(editor, setError) {
       body: JSON.stringify({
         title: title,
         content: doc,
+        readTime: readTime,
       }),
     });
     const data = await response.json();
@@ -58,7 +62,6 @@ export async function getArticle(id, setError) {
       credentials: "include",
     });
     const data = await response.json();
-    console.log(data);
     if (!response.ok) {
       setError(data.message);
       return;
@@ -78,6 +81,7 @@ export async function saveExistingArticle(articleId, editor, setError) {
     return;
   }
   const title = firstHeading.content[0].text;
+  const readTime = getReadTime(editor);
   try {
     const response = await fetch(`/api/author/articles/${articleId}`, {
       method: "PATCH",
@@ -86,6 +90,7 @@ export async function saveExistingArticle(articleId, editor, setError) {
       body: JSON.stringify({
         title: title,
         content: doc,
+        readTime,
       }),
     });
     const data = await response.json();
