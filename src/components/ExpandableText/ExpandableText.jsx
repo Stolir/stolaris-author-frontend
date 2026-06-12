@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./ExpandableText.module.css";
+import Markdown from "react-markdown";
 
 function ExpandableText({ id, text, wordLimit = 36 }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -14,13 +15,11 @@ function ExpandableText({ id, text, wordLimit = 36 }) {
     .slice(wordLimit - 1, splittedText.length - 1)
     .join(" ");
 
+  const fullText = isExpanded ? visibleText + " " + hiddenText : visibleText;
+
   return (
     <>
-      <p id={id}>
-        {visibleText}
-        {canOverflow && !isExpanded && <span>...</span>}
-        {canOverflow && isExpanded && " " + hiddenText}
-      </p>
+      <Markdown id={id}>{fullText}</Markdown>
       {canOverflow && (
         <button
           className={styles.readMoreBtn}
