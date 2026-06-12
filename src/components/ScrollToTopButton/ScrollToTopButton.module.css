@@ -1,0 +1,14 @@
+.scrollBtn {
+  position: fixed;
+  bottom: 25px;
+  right: 30px;
+  background: none;
+  border: none;
+  color: var(--primary-color);
+
+  cursor: pointer;
+}
+
+.scrollBtn:hover {
+  color: var(--primary-variant);
+}
