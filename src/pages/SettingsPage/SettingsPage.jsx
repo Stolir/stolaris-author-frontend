@@ -50,7 +50,7 @@ function SettingsPage() {
       return;
     }
     try {
-      const response = await fetch("/api/user/username-attempt", {
+      const response = await fetch("/api/users/username-attempt", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
