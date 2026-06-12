@@ -122,3 +122,17 @@ export async function getUser() {
     return null;
   }
 }
+
+export async function getAllComments(setError) {
+  try {
+    const response = await fetch("/api/comments");
+    const data = await response.json();
+    if (!response.ok) {
+      setError(data);
+      return;
+    }
+    return data;
+  } catch {
+    setError("A network error has occurred. Please try again later.");
+  }
+}
