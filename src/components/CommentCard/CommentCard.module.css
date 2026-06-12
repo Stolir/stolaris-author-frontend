@@ -1,0 +1,71 @@
+.commentContainer {
+  padding: 1rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.commentInformation {
+  display: flex;
+  flex-direction: column;
+  font-size: 1em;
+  font-family: "Newsreader", "Work Sans";
+  gap: 0.4rem;
+}
+
+.userInfoDateContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.userInfo {
+  font-size: 0.6em;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: "Work Sans", "Newsreader";
+  letter-spacing: 1px;
+}
+
+.userInfo > span {
+  color: var(--primary-variant);
+  font-weight: 600;
+  /* 
+  letter-spacing: 1px;
+  font-style: normal; */
+}
+
+.commentDate {
+  font-size: 0.8em;
+  color: grey;
+}
+
+.articleInfo {
+  font-size: 1.2em;
+}
+
+.commentContent > p {
+  font-size: 1em;
+  font-family: "Newsreader";
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.2rem;
+  border-left: 2px solid rgb(179, 179, 179);
+}
+
+.removeCommentBtn {
+  padding: 0;
+  align-self: flex-end;
+  border: none;
+  background: none;
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: grey;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.removeCommentBtn:hover {
+  color: rgb(202, 2, 2);
+}

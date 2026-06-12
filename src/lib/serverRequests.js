@@ -122,3 +122,34 @@ export async function getUser() {
     return null;
   }
 }
+
+export async function getAllComments(setError) {
+  try {
+    const response = await fetch("/api/comments");
+    const data = await response.json();
+    if (!response.ok) {
+      setError(data);
+      return;
+    }
+    return data;
+  } catch {
+    setError("A network error has occurred. Please try again later.");
+  }
+}
+
+export async function deleteComment(id, setError) {
+  try {
+    const response = await fetch(`/api/comments/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!response.ok) {
+      const data = await response.json();
+      setError(data.message);
+      return;
+    }
+    return true;
+  } catch {
+    setError("A network error has occurred. Please try again later.");
+  }
+}

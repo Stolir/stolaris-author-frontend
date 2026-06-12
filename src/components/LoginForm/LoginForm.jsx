@@ -7,7 +7,6 @@ import { useAuth } from "../../context/AuthContext";
 
 const welcomeMessages = [
   "Let your thoughts become creation.",
-  "Where you can write as if no one is watching.",
   "Enter the studio. Write without consequences.",
   "Write without judgment. Create without limits.",
   "A quiet corner for your loudest thoughts.",

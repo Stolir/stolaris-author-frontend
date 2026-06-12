@@ -8,14 +8,13 @@ import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 
 function SettingsPage() {
   const { user, login } = useAuth();
+
   const [userInfo, setUserInfo] = useState(user);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [fieldErrors, setFieldErrors] = useState({});
   const [usernameStatus, setUsernameStatus] = useState(null);
-
   const [isEditing, setIsEditing] = useState(false);
-
   const [changePassword, setChangePassword] = useState(false);
 
   function toggleChangePassword() {

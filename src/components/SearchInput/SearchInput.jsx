@@ -10,7 +10,7 @@ function SearchInput({ value, onChange }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={styles.searchInput}
-        placeholder="Search articles by title"
+        placeholder="Search..."
       />
     </div>
   );
