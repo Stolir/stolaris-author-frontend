@@ -33,11 +33,13 @@ function TypewriterQuote({ fullQuote, fullAuthor }) {
       >
         {quote}
       </p>
-      <p
-        className={`${styles.author} ${styles.fadeAuthor} ${showAuthor ? styles.visible : ""}`}
-      >
-        ― {fullAuthor}
-      </p>
+      {fullAuthor && (
+        <p
+          className={`${styles.author} ${styles.fadeAuthor} ${showAuthor ? styles.visible : ""}`}
+        >
+          ― {fullAuthor}
+        </p>
+      )}
     </div>
   );
 }
