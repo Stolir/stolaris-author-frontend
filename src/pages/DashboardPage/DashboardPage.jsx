@@ -15,7 +15,7 @@ function DashboardPage() {
           searchValue={searchQuery}
           searchOnChange={setSearchQuery}
         />
-        <Outlet context={searchQuery} />
+        <Outlet context={{ searchQuery }} />
       </section>
     </div>
   );

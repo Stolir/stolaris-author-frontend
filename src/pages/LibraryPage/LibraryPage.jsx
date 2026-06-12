@@ -6,7 +6,7 @@ import { useState } from "react";
 function LibraryPage() {
   const data = useLoaderData();
   const [articles, setArticles] = useState(data);
-  const searchQuery = useOutletContext();
+  const { searchQuery } = useOutletContext();
   const [currentFilter, setCurrentFilter] = useState(null);
   const filters = [
     { value: null, displayText: "ALL ARTICLES" },
