@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router";
 import styles from "./Sidebar.module.css";
 import SidebarItem from "../SidebarItem/SidebarItem";
-import { Book, PagePlus, Settings } from "iconoir-react";
+import { Book, MessageText, PagePlus, Settings } from "iconoir-react";
 import CustomButton from "../CustomButton/CustomButton";
 
 function Sidebar() {
@@ -20,6 +20,11 @@ function Sidebar() {
             name={"Settings"}
             icon={<Settings />}
             path={"settings"}
+          />
+          <SidebarItem
+            name={"Engagements"}
+            icon={<MessageText />}
+            path={"engagements"}
           />
         </section>
         <section className={styles.controls}>

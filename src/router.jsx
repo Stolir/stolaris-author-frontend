@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LibraryPage from "./pages/LibraryPage/LibraryPage";
 import { articleLoader } from "./loaders/articleLoader";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
+import EngagementsPage from "./pages/EngagementsPage/EngagementsPage";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
                 path: "library",
                 element: <LibraryPage />,
                 loader: articleLoader,
+              },
+              {
+                path: "engagements",
+                element: <EngagementsPage />,
               },
               {
                 path: "settings",
