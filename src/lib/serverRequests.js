@@ -11,16 +11,19 @@ export async function saveAsDraft(editor, setError) {
   const title = firstHeading.content[0].text;
   const readTime = getReadTime(editor);
   try {
-    const response = await fetch("/api/author/articles", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: title,
-        content: doc,
-        readTime: readTime,
-      }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/author/articles`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: title,
+          content: doc,
+          readTime: readTime,
+        }),
+      },
+    );
     const data = await response.json();
     if (!response.ok) {
       if (data.errors) {
@@ -39,7 +42,7 @@ export async function saveAsDraft(editor, setError) {
 export async function updateArticleStatus(articleId, action, setError) {
   try {
     const response = await fetch(
-      `/api/author/articles/${articleId}/${action}`,
+      `${import.meta.env.VITE_API_URL}/api/author/articles/${articleId}/${action}`,
       {
         method: "POST",
         credentials: "include",
@@ -58,9 +61,12 @@ export async function updateArticleStatus(articleId, action, setError) {
 
 export async function getArticle(id, setError) {
   try {
-    const response = await fetch(`/api/author/articles/${id}`, {
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/author/articles/${id}`,
+      {
+        credentials: "include",
+      },
+    );
     const data = await response.json();
     if (!response.ok) {
       setError(data.message);
@@ -83,16 +89,19 @@ export async function saveExistingArticle(articleId, editor, setError) {
   const title = firstHeading.content[0].text;
   const readTime = getReadTime(editor);
   try {
-    const response = await fetch(`/api/author/articles/${articleId}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: title,
-        content: doc,
-        readTime,
-      }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/author/articles/${articleId}`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: title,
+          content: doc,
+          readTime,
+        }),
+      },
+    );
     const data = await response.json();
     if (!response.ok) {
       if (data.errors) {
@@ -110,7 +119,7 @@ export async function saveExistingArticle(articleId, editor, setError) {
 
 export async function getUser() {
   try {
-    const response = await fetch("/auth/me", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
       credentials: "include",
     });
     if (!response.ok) {
@@ -125,7 +134,9 @@ export async function getUser() {
 
 export async function getAllComments(setError) {
   try {
-    const response = await fetch("/api/comments");
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/comments`,
+    );
     const data = await response.json();
     if (!response.ok) {
       setError(data);
@@ -139,10 +150,13 @@ export async function getAllComments(setError) {
 
 export async function deleteComment(id, setError) {
   try {
-    const response = await fetch(`/api/comments/${id}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/comments/${id}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      },
+    );
     if (!response.ok) {
       const data = await response.json();
       setError(data.message);

@@ -31,15 +31,18 @@ function LoginForm() {
     const formData = new FormData(e.target);
 
     try {
-      const response = await fetch("/auth/login/author", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: formData.get("username"),
-          password: formData.get("password"),
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login/author`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: formData.get("username"),
+            password: formData.get("password"),
+          }),
+        },
+      );
       const data = await response.json();
       if (!response.ok) {
         if (data.errors) {

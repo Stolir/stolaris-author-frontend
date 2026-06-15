@@ -49,14 +49,17 @@ function SettingsPage() {
       return;
     }
     try {
-      const response = await fetch("/api/users/username-attempt", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/users/username-attempt`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username,
+          }),
+        },
+      );
       const data = await response.json();
       if (!response.ok) {
         if (data.errors) {
@@ -86,7 +89,7 @@ function SettingsPage() {
     setFieldErrors({});
     const formData = new FormData(e.target);
     try {
-      const response = await fetch("/auth/me", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

@@ -17,10 +17,13 @@ function ArticleTableOptions({
 
   async function deleteArticle(articleId) {
     try {
-      const response = await fetch(`/api/author/articles/${articleId}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/author/articles/${articleId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
       if (!response.ok) {
         const data = await response.json();
         setError(data?.message || "Delete Failed");

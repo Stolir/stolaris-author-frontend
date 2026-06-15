@@ -18,9 +18,12 @@ export function useSearch() {
     // debounce search
     const timeout = setTimeout(async () => {
       try {
-        const response = await fetch(`/api/articles/search?q=${searchQuery}`, {
-          credentials: "include",
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/articles/search?q=${searchQuery}`,
+          {
+            credentials: "include",
+          },
+        );
 
         if (response.status === 401) {
           logout();

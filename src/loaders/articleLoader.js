@@ -8,9 +8,12 @@ export async function articleLoader() {
   }
 
   try {
-    const response = await fetch("/api/author/articles", {
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/author/articles`,
+      {
+        credentials: "include",
+      },
+    );
     if (!response.ok) {
       throw new Response("Unable to get articles", { status: response.status });
     }
