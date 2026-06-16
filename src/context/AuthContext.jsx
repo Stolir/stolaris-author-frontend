@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 const AuthContext = createContext(null);
 
@@ -6,15 +6,16 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  function login(userData) {
+  const login = useCallback((userData) => {
     setUser(userData);
     setLoading(false);
-  }
+  }, []);
 
-  function logout() {
+  const logout = useCallback(() => {
     setUser(null);
     setLoading(false);
-  }
+  }, []);
+
   return (
     <AuthContext.Provider value={{ user, login, logout, loading, setLoading }}>
       {children}
