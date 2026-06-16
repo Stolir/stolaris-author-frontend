@@ -4,7 +4,7 @@ import { redirect } from "react-router";
 export async function articleLoader() {
   const user = await getUser();
   if (!user) {
-    throw redirect("/");
+    return null;
   }
 
   try {

@@ -2,9 +2,16 @@ import { useLoaderData, useOutletContext } from "react-router";
 import styles from "./LibraryPage.module.css";
 import ArticleTable from "@/components/ArticleTable/ArticleTable";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 function LibraryPage() {
+  const { logout } = useAuth();
   const data = useLoaderData();
+
+  if (!data) {
+    logout();
+  }
+
   const [articles, setArticles] = useState(data);
   const { searchQuery } = useOutletContext();
   const [currentFilter, setCurrentFilter] = useState(null);
