@@ -5,9 +5,11 @@ import { useCallback, useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
 
 import { getUser } from "./lib/serverRequests";
+import AuthLayout from "./layouts/AuthLayout/AuthLayout";
+import PublicLayout from "./layouts/PublicLayout";
 
 function AppContent() {
-  const { login, logout, loading } = useAuth();
+  const { login, logout, loading, user } = useAuth();
 
   const checkSessionValidity = useCallback(async () => {
     const userData = await getUser();
@@ -27,7 +29,7 @@ function AppContent() {
 
   if (loading) return <LoadingSpinner />;
 
-  return <Outlet />;
+  return user ? <AuthLayout /> : <PublicLayout />;
 }
 
 function App() {

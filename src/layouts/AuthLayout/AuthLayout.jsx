@@ -1,13 +1,6 @@
-import { Navigate, Outlet } from "react-router";
-import { useAuth } from "../../context/AuthContext";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { Outlet } from "react-router";
 
 function AuthLayout() {
-  const { user, loading } = useAuth();
-
-  if (loading) return <LoadingSpinner />;
-  if (!user) return <Navigate to="/" />;
-
   return <Outlet />;
 }
 

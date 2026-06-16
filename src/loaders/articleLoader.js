@@ -1,10 +1,9 @@
 import { getUser } from "@/lib/serverRequests";
-import { redirect } from "react-router";
 
 export async function articleLoader() {
   const user = await getUser();
   if (!user) {
-    throw redirect("/");
+    return null;
   }
 
   try {
@@ -18,7 +17,7 @@ export async function articleLoader() {
       throw new Response("Unable to get articles", { status: response.status });
     }
     const data = await response.json();
-    return data;
+    return [];
   } catch (err) {
     throw err;
   }

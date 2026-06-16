@@ -4,6 +4,7 @@ import FormInput from "../FormInput/FormInput";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const welcomeMessages = [
   "Let your thoughts become creation.",
@@ -18,6 +19,7 @@ function LoginForm() {
   const [fieldErrors, setFieldErrors] = useState({});
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   // picks a welcome message at random
   const randomWM = useMemo(() => {
@@ -29,6 +31,7 @@ function LoginForm() {
     setError(null);
     setFieldErrors({});
     const formData = new FormData(e.target);
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -54,9 +57,11 @@ function LoginForm() {
         } else {
           setError(data.message);
         }
+        setLoading(false);
         return;
       }
       login(data.user);
+      setLoading(false);
       navigate("/author/dashboard");
     } catch (err) {
       setError("An error occurred. Please try again.");
@@ -64,34 +69,37 @@ function LoginForm() {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.welcomeMessage}>
-        <h1>Welcome back</h1>
-        <p>{randomWM}</p>
-      </div>
+    <>
+      {loading && <LoadingSpinner />}
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.welcomeMessage}>
+          <h1>Welcome back</h1>
+          <p>{randomWM}</p>
+        </div>
 
-      <FormInput
-        type="text"
-        label="USERNAME"
-        id="username"
-        name="username"
-        placeholder="johndoe"
-        isRequired={true}
-        error={fieldErrors.username}
-      />
-      <FormInput
-        type="password"
-        label="PASSWORD"
-        id="password"
-        name="password"
-        placeholder="*********"
-        isRequired={true}
-        error={fieldErrors.password}
-      />
+        <FormInput
+          type="text"
+          label="USERNAME"
+          id="username"
+          name="username"
+          placeholder="johndoe"
+          isRequired={true}
+          error={fieldErrors.username}
+        />
+        <FormInput
+          type="password"
+          label="PASSWORD"
+          id="password"
+          name="password"
+          placeholder="*********"
+          isRequired={true}
+          error={fieldErrors.password}
+        />
 
-      <FormButton type="submit">Login</FormButton>
-      <p className={styles.error}>{error ? error : ""}</p>
-    </form>
+        <FormButton type="submit">Login</FormButton>
+        <p className={styles.error}>{error ? error : ""}</p>
+      </form>
+    </>
   );
 }
 
