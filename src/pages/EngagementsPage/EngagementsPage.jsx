@@ -11,6 +11,7 @@ import ScrollToTopButton from "@/components/ScrollToTopButton/ScrollToTopButton"
 function EngagementsPage() {
   const [comments, setComments] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { searchQuery } = useOutletContext();
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function EngagementsPage() {
         setError("Unable to get user comments. Please try again later.");
       }
     })();
+    setLoading(false);
   }, []);
 
   async function removeComment(id) {
@@ -47,6 +49,7 @@ function EngagementsPage() {
           {error}
         </AlertBox>
       )}
+      {loading && <LoadingSpinner />}
       <ScrollToTopButton />
       <section className={styles.engagementsContainer}>
         <p>User Engagements</p>
@@ -54,7 +57,8 @@ function EngagementsPage() {
           <h1>Comments</h1>
         </section>
         <section className={styles.commentsContainer}>
-          {searchedComments ? (
+          {loading && <p>Loading Comments...</p>}
+          {searchedComments?.length > 0 ? (
             <>
               {searchedComments.map((comment) => (
                 <CommentCard
@@ -65,10 +69,7 @@ function EngagementsPage() {
               ))}
             </>
           ) : (
-            <>
-              <p>Loading Comments...</p>
-              <LoadingSpinner />
-            </>
+            <p>No comments available.</p>
           )}
         </section>
       </section>

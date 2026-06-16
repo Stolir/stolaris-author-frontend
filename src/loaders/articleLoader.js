@@ -17,7 +17,7 @@ export async function articleLoader() {
       throw new Response("Unable to get articles", { status: response.status });
     }
     const data = await response.json();
-    return [];
+    return data;
   } catch (err) {
     throw err;
   }

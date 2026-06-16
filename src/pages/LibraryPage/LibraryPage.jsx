@@ -8,10 +8,6 @@ function LibraryPage() {
   const { logout } = useAuth();
   const data = useLoaderData();
 
-  if (!data) {
-    logout();
-  }
-
   const [articles, setArticles] = useState(data);
   if (!articles) {
     logout();
