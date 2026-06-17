@@ -13,3 +13,7 @@
   font-size: 2rem;
   font-weight: 300;
 }
+
+.logo > p span {
+  color: var(--primary-color);
+}

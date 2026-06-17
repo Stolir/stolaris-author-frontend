@@ -10,7 +10,9 @@ function Navbar() {
     return (
       <header className={styles.navbar}>
         <Link to="/" className={`${styles.logo}`}>
-          <p>STOLARIS</p>
+          <p>
+            AA<span>.</span> Author
+          </p>
         </Link>
       </header>
     );

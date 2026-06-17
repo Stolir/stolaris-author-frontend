@@ -41,6 +41,10 @@
   font-size: 2em;
 }
 
+.mainText span {
+  color: var(--primary-color);
+}
+
 .logoSubtext {
   font-family: "Work sans";
   font-weight: 500;

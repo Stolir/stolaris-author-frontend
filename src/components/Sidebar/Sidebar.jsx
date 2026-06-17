@@ -11,7 +11,9 @@ function Sidebar() {
     <aside className={styles.sidebar}>
       <div>
         <Link to="/author/dashboard" className={`${styles.logo}`}>
-          <p className={styles.mainText}>STOLARIS</p>
+          <p className={styles.mainText}>
+            AA<span>.</span>
+          </p>
           <p className={styles.logoSubtext}>EDITORIAL WORKSPACE</p>
         </Link>
         <section className={styles.navItems}>
